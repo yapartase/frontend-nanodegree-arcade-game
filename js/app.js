@@ -1,10 +1,17 @@
+var rightEdge = 505;
+var tileHeight = 101;
+
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(x, y) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
+    this.x = x;
+    this.y = y;
+    // enemies have a min speed
+    this.speed = Math.floor(Math.random() * (250 - 100)) + 100;
     this.sprite = 'images/enemy-bug.png';
 };
 
@@ -14,6 +21,16 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+
+    if (this.x < rightEdge) {
+        this.x += dt * this.speed;
+    } else {
+        // enemy will spawn on a random tile
+        this.x = 0;
+        var tiles = [40, 130, 210];
+        var randomTile = tiles[Math.floor(Math.random() * tiles.length)]
+        this.y = randomTile;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -25,12 +42,49 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 
+// Player constructor class
+var Player = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.sprite = 'images/char-boy.png';
+};
+
+Player.prototype.update = function(dt) {
+  // new x and y value depending on what key is pressed
+
+
+};
+
+Player.prototype.handleInput = function(key) {
+    switch(key){
+      case 'left':
+
+      break;
+      case 'up':
+
+      break;
+      case 'right':
+
+      break;
+      case 'down':
+
+      break;
+    }
+
+};
+
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+
+var player = new Player(202, 404);
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-
+var allEnemies = [new Enemy(0, 40), new Enemy(0, 130), new Enemy(0, 210)];
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
