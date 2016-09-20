@@ -1,5 +1,8 @@
 var rightEdge = 505;
-var tileHeight = 101;
+var leftEdge = 0;
+var bottomEdge = 404;
+var tileWidth = 101;
+var tileHeight = 83;
 
 // Enemies our player must avoid
 var Enemy = function(x, y) {
@@ -25,7 +28,7 @@ Enemy.prototype.update = function(dt) {
     if (this.x < rightEdge) {
         this.x += dt * this.speed;
     } else {
-        // enemy will spawn on a random tile
+        // enemy will spawn on one of the 3 tiles at random tile
         this.x = 0;
         var tiles = [40, 130, 210];
         var randomTile = tiles[Math.floor(Math.random() * tiles.length)]
@@ -50,25 +53,42 @@ var Player = function(x, y) {
 };
 
 Player.prototype.update = function(dt) {
-  // new x and y value depending on what key is pressed
+    // new x and y value depending on what key is pressed
 
 
 };
 
 Player.prototype.handleInput = function(key) {
-    switch(key){
-      case 'left':
-      this.x = 400;
-      break;
-      case 'up':
-
-      break;
-      case 'right':
-
-      break;
-      case 'down':
-
-      break;
+    switch (key) {
+        case 'left':
+            if (this.x - tileWidth < leftEdge) {
+                this.x = leftEdge;
+            } else {
+                this.x -= tileWidth;
+            }
+            break;
+        case 'up':
+            // if the player reaches the water return him to starting tile.
+            if (this.y < tileHeight) {
+                this.y = 404;
+                this.x = 202;
+            } else {
+                this.y -= tileHeight;
+            }
+            break;
+        case 'right':
+            if (this.x + tileWidth >= rightEdge) {
+                this.x = rightedge;
+            } else {
+                this.x += tileWidth;
+            }
+            break;
+        case 'down':
+            if (this.y + tileHeight > bottomEdge) {
+                this.y = bottomEdge;
+            } else {
+                this.y += tileHeight;
+            }
     }
 
 };
