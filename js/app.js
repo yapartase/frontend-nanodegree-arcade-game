@@ -58,6 +58,22 @@ Player.prototype.update = function(dt) {
 
 };
 
+Player.prototype.reset = function(x, y) {
+  this.x = x;
+  this.y = y;
+};
+
+function checkCollisions (allEnemies, player) {
+    for(var i = 0; i < allEnemies.length; i++) {
+        if (allEnemies[i].x < player.x + tileWidth &&
+	    allEnemies[i].x + tileWidth > player.x &&
+	    allEnemies[i].y < player.y &&
+	    tileHeight + allEnemies[i].y > player.y) {
+	    player.reset(202,404);
+    	}
+    }
+}
+
 Player.prototype.handleInput = function(key) {
     switch (key) {
         case 'left':
