@@ -10,7 +10,7 @@ var Enemy = function(x, y) {
     // a helper we've provided to easily load images
     this.x = x;
     this.y = y;
-    // enemies have a min speed
+    // ensure enemies are not too slow
     this.speed = Math.floor(Math.random() * (250 - 100)) + 100;
     this.sprite = 'images/enemy-bug.png';
 };
@@ -58,7 +58,7 @@ Player.prototype.update = function(dt) {
 Player.prototype.handleInput = function(key) {
     switch(key){
       case 'left':
-
+      this.x = 400;
       break;
       case 'up':
 
