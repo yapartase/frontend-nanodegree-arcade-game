@@ -74,7 +74,7 @@ function checkCollisions(allEnemies, player) {
             allEnemies[i].y < player.y &&
             tileHeight + allEnemies[i].y > player.y) {
             player.reset();
-            // score cannot drop below 0.
+            // reset score to 0 if hit.
             while (player.score > 0) {
               player.score--;
             }
