@@ -153,6 +153,7 @@ var Engine = (function(global) {
         });
 
         player.render();
+        // draw the score into the top right corner.
         player.scoreCalc();
     }
 

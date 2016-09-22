@@ -74,6 +74,10 @@ function checkCollisions(allEnemies, player) {
             allEnemies[i].y < player.y &&
             tileHeight + allEnemies[i].y > player.y) {
             player.reset();
+            // score cannot drop below 0.
+            while (player.score > 0) {
+              player.score--;
+            }
         }
     }
 }
@@ -91,6 +95,7 @@ Player.prototype.handleInput = function(key) {
             // if the player reaches the water return him to starting tile.
             if (this.y < tileHeight) {
                 player.reset();
+                // increase his score by 1.
                 this.score++;
             } else {
                 this.y -= tileHeight;
