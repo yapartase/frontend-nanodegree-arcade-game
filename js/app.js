@@ -49,28 +49,32 @@ Enemy.prototype.render = function() {
 var Player = function(x, y) {
     this.x = x;
     this.y = y;
+    this.score = 0;
     this.sprite = 'images/char-boy.png';
 };
 
 Player.prototype.update = function(dt) {
     // new x and y value depending on what key is pressed
-
-
 };
 
-Player.prototype.reset = function(x, y) {
-  this.x = x;
-  this.y = y;
+Player.prototype.reset = function() {
+    this.x = 202;
+    this.y = 404;
 };
 
-function checkCollisions (allEnemies, player) {
-    for(var i = 0; i < allEnemies.length; i++) {
+Player.prototype.scoreCalc = function() {
+    ctx.font = "20px Arial";
+    ctx.fillText('score:' + ' ' + this.score, 410, 80);
+};
+
+function checkCollisions(allEnemies, player) {
+    for (var i = 0; i < allEnemies.length; i++) {
         if (allEnemies[i].x < player.x + tileWidth &&
-	    allEnemies[i].x + tileWidth > player.x &&
-	    allEnemies[i].y < player.y &&
-	    tileHeight + allEnemies[i].y > player.y) {
-	    player.reset(202,404);
-    	}
+            allEnemies[i].x + tileWidth > player.x &&
+            allEnemies[i].y < player.y &&
+            tileHeight + allEnemies[i].y > player.y) {
+            player.reset();
+        }
     }
 }
 
@@ -86,8 +90,8 @@ Player.prototype.handleInput = function(key) {
         case 'up':
             // if the player reaches the water return him to starting tile.
             if (this.y < tileHeight) {
-                this.y = 404;
-                this.x = 202;
+                player.reset();
+                this.score++;
             } else {
                 this.y -= tileHeight;
             }
