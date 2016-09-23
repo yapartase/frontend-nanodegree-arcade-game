@@ -1,8 +1,8 @@
-var rightEdge = 505;
-var leftEdge = 0;
-var bottomEdge = 404;
-var tileWidth = 101;
-var tileHeight = 83;
+var RIGHT_EDGE = 505;
+var LEFT_EDGE = 0;
+var BOTTOM_EDGE = 404;
+var TILE_WIDTH = 101;
+var TILE_HEIGHT = 83;
 
 // Enemies our player must avoid
 var Enemy = function(x, y) {
@@ -25,15 +25,20 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 
-    if (this.x < rightEdge) {
+    if (this.x < RIGHT_EDGE) {
         this.x += dt * this.speed;
     } else {
         // enemy will spawn on one of the 3 tiles at random tile
         this.x = 0;
         var tiles = [40, 130, 210];
-        var randomTile = tiles[Math.floor(Math.random() * tiles.length)]
+        var randomTile = tiles[Math.floor(Math.random() * tiles.length)];
         this.y = randomTile;
     }
+};
+
+
+var Character = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // Draw the enemy on the screen, required method for game
@@ -67,52 +72,37 @@ Player.prototype.scoreCalc = function() {
     ctx.fillText('score:' + ' ' + this.score, 410, 80);
 };
 
-function checkCollisions(allEnemies, player) {
-    for (var i = 0; i < allEnemies.length; i++) {
-        if (allEnemies[i].x < player.x + tileWidth &&
-            allEnemies[i].x + tileWidth > player.x &&
-            allEnemies[i].y < player.y &&
-            tileHeight + allEnemies[i].y > player.y) {
-            player.reset();
-            // reset score to 0 if hit.
-            while (player.score > 0) {
-              player.score--;
-            }
-        }
-    }
-}
-
 Player.prototype.handleInput = function(key) {
     switch (key) {
         case 'left':
-            if (this.x - tileWidth < leftEdge) {
-                this.x = leftEdge;
+            if (this.x - TILE_WIDTH < LEFT_EDGE) {
+                this.x = LEFT_EDGE;
             } else {
-                this.x -= tileWidth;
+                this.x -= TILE_WIDTH;
             }
             break;
         case 'up':
             // if the player reaches the water return him to starting tile.
-            if (this.y < tileHeight) {
-                player.reset();
+            if (this.y < TILE_HEIGHT) {
+                this.reset();
                 // increase his score by 1.
                 this.score++;
             } else {
-                this.y -= tileHeight;
+                this.y -= TILE_HEIGHT;
             }
             break;
         case 'right':
-            if (this.x + tileWidth >= rightEdge) {
-                this.x = rightedge;
+            if (this.x + TILE_WIDTH >= RIGHT_EDGE) {
+                this.x = RIGHT_EDGE;
             } else {
-                this.x += tileWidth;
+                this.x += TILE_WIDTH;
             }
             break;
         case 'down':
-            if (this.y + tileHeight > bottomEdge) {
-                this.y = bottomEdge;
+            if (this.y + TILE_HEIGHT > BOTTOM_EDGE) {
+                this.y = BOTTOM_EDGE;
             } else {
-                this.y += tileHeight;
+                this.y += TILE_HEIGHT;
             }
     }
 
