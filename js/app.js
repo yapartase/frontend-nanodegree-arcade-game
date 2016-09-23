@@ -6,9 +6,10 @@ var TILE_WIDTH = 101;
 var TILE_HEIGHT = 83;
 
 // Create a superclass with shared properties and methods.
-var Character = function(x, y) {
+var Character = function(x, y, spriteURL) {
     this.x = x;
     this.y = y;
+    this.sprite = 'images/' + spriteURL;
 };
 
 // Method shared by both the enemies and the player.
@@ -18,11 +19,11 @@ Character.prototype.render = function() {
 
 // Enemies our player must avoid
 var Enemy = function(x, y) {
+    var spriteURL = 'enemy-bug.png';
     // Instantiate the Character function and set its 'this' value.
-    Character.call(this, x, y);
+    Character.call(this, x, y, spriteURL);
     // ensure enemies are not too slow
     this.speed = Math.floor(Math.random() * (250 - 100)) + 100;
-    this.sprite = 'images/enemy-bug.png';
 };
 
 Enemy.prototype = Object.create(Character.prototype);
@@ -43,9 +44,9 @@ Enemy.prototype.update = function(dt) {
 
 // Player constructor class.
 var Player = function(x, y) {
-    Character.call(this, x, y);
+    var spriteURL = 'char-boy.png';
+    Character.call(this, x, y, spriteURL);
     this.score = 0;
-    this.sprite = 'images/char-boy.png';
 };
 
 Player.prototype = Object.create(Character.prototype);
