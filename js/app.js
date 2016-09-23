@@ -1,27 +1,25 @@
 var RIGHT_EDGE = 505;
+var RIGHT_MOST_TILE = 404;
 var LEFT_EDGE = 0;
 var BOTTOM_EDGE = 404;
 var TILE_WIDTH = 101;
 var TILE_HEIGHT = 83;
 
-//Create a superclass with shared properties and methods
+// Create a superclass with shared properties and methods.
 var Character = function(x, y) {
     this.x = x;
     this.y = y;
 };
 
+// Method shared by both the enemies and the player.
 Character.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // Enemies our player must avoid
 var Enemy = function(x, y) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
+    // Instantiate the Character function and set its 'this' value.
     Character.call(this, x, y);
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-
     // ensure enemies are not too slow
     this.speed = Math.floor(Math.random() * (250 - 100)) + 100;
     this.sprite = 'images/enemy-bug.png';
@@ -29,18 +27,13 @@ var Enemy = function(x, y) {
 
 Enemy.prototype = Object.create(Character.prototype);
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-
+// Update the enemy's position
+// Parameter: dt, a time delta between ticks.
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-
     if (this.x < RIGHT_EDGE) {
         this.x += dt * this.speed;
     } else {
-        // enemy will spawn on one of the 3 tiles at random tile
+        // Enemy will spawn on one of the 3 tiles at random.
         this.x = 0;
         var tiles = [40, 130, 210];
         var randomTile = tiles[Math.floor(Math.random() * tiles.length)];
@@ -48,11 +41,7 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
-// Player constructor class
+// Player constructor class.
 var Player = function(x, y) {
     Character.call(this, x, y);
     this.score = 0;
@@ -61,9 +50,8 @@ var Player = function(x, y) {
 
 Player.prototype = Object.create(Character.prototype);
 
-Player.prototype.update = function(dt) {
-    // new x and y value depending on what key is pressed
-};
+/*Player.prototype.update = function(dt) {
+};*/
 
 Player.prototype.reset = function() {
     this.x = 202;
@@ -85,10 +73,10 @@ Player.prototype.handleInput = function(key) {
             }
             break;
         case 'up':
-            // if the player reaches the water return him to starting tile.
+            // If the player reaches the water return him to starting tile.
             if (this.y < TILE_HEIGHT) {
                 this.reset();
-                // increase his score by 1.
+                // Increase players score by 1.
                 this.score++;
             } else {
                 this.y -= TILE_HEIGHT;
@@ -96,7 +84,7 @@ Player.prototype.handleInput = function(key) {
             break;
         case 'right':
             if (this.x + TILE_WIDTH >= RIGHT_EDGE) {
-                this.x = RIGHT_EDGE;
+                this.x = RIGHT_MOST_TILE;
             } else {
                 this.x += TILE_WIDTH;
             }
@@ -110,12 +98,6 @@ Player.prototype.handleInput = function(key) {
     }
 
 };
-
-/* Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}; */
-
-
 
 var player = new Player(202, 404);
 
