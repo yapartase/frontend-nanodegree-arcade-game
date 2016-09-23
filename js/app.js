@@ -4,22 +4,34 @@ var BOTTOM_EDGE = 404;
 var TILE_WIDTH = 101;
 var TILE_HEIGHT = 83;
 
+//Create a superclass with shared properties and methods
+var Character = function(x, y) {
+    this.x = x;
+    this.y = y;
+};
+
+Character.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
 // Enemies our player must avoid
 var Enemy = function(x, y) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-
+    Character.call(this, x, y);
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.x = x;
-    this.y = y;
+
     // ensure enemies are not too slow
     this.speed = Math.floor(Math.random() * (250 - 100)) + 100;
     this.sprite = 'images/enemy-bug.png';
 };
 
+Enemy.prototype = Object.create(Character.prototype);
+
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
+
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -36,27 +48,18 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
-
-var Character = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 
 // Player constructor class
 var Player = function(x, y) {
-    this.x = x;
-    this.y = y;
+    Character.call(this, x, y);
     this.score = 0;
     this.sprite = 'images/char-boy.png';
 };
+
+Player.prototype = Object.create(Character.prototype);
 
 Player.prototype.update = function(dt) {
     // new x and y value depending on what key is pressed
@@ -108,9 +111,10 @@ Player.prototype.handleInput = function(key) {
 
 };
 
-Player.prototype.render = function() {
+/* Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+}; */
+
 
 
 var player = new Player(202, 404);
